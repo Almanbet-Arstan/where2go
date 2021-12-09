@@ -42,8 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("select login, password, email from users where login = ?")
-                .authoritiesByUsernameQuery("select u.login , ur.role_name as role from user_roles ur inner join users u on ur.id = u.user_role_id where u.login = ?");
+                .usersByUsernameQuery("select login, password, is_active from users where login = ?")
+                .authoritiesByUsernameQuery("select u.login , ur.role_name from user_roles ur inner join users u on ur.id = u.user_role_id where u.login = ? and u.is_active = 1");
     }
 
     @Bean

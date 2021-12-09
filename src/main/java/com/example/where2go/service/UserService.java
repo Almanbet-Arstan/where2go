@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface UserService {
     UserModel createUser(UserModel userModel);
-    Page<User> getPage(Pageable pageable);
+    Page<UserModel> getPage(Pageable pageable);
     UserModel getById(Long id);
     UserModel updateUser(UserModel userModel);
     UserModel deleteById(Long id);

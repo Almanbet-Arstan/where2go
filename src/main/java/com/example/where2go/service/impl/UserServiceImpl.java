@@ -14,9 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.Base64;
-import java.util.Calendar;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,17 +32,18 @@ public class UserServiceImpl implements UserService {
     public UserModel createUser(UserModel userModel) {
         String encodedPassword = passwordEncoder.encode(userModel.getPassword());
         userModel.setPassword(encodedPassword);
+        userModel.setIsActive(1L);
         userRepository.save(userConverter.convertFromModel(userModel));
         return userModel;
     }
 
     @Override
-    public Page<User> getPage(Pageable pageable) {
+    public Page<UserModel> getPage(Pageable pageable) {
         Page<User> userPage = userRepository.findAll(pageable);
 
         if (userPage.getContent().isEmpty())
             throw new ApiException("Список пустой", HttpStatus.BAD_REQUEST);
-        return userPage;
+        return userPage.map(userConverter::convertFromEntity);
     }
 
     @Override

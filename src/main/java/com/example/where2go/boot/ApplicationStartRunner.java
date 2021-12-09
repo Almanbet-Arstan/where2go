@@ -51,43 +51,43 @@ public class ApplicationStartRunner implements CommandLineRunner {
                     .userRoleId(2L)
                     .build());
         }
-
-        CategoryModel cafe = new CategoryModel();
-        cafe.setName("name");
-        categoryService.createCategory(cafe);
-        CategoryModel bar = new CategoryModel();
-        bar.setName("bar");
-        categoryService.createCategory(bar);
-
-        for (int i = 0; i < 10; i++) {
-            establishmentService.createEstablishment(EstablishmentModel.builder()
-                    .name("name" + i)
-                    .address("address" + i)
-                    .workSchedule("19:0" + i + "-04:00")
-                    .userId(1L)
-                    .categoryId(1L)
-                    .build());
-        }
-        for (int i = 10; i < 20; i++) {
-            establishmentService.createEstablishment(EstablishmentModel.builder()
-                    .name("name" + i)
-                    .address("address" + i)
-                    .workSchedule("19:0" + i + "-04:00")
-                    .userId(2L)
-                    .categoryId(2L)
-                    .build());
-        }
-        for (int i = 0; i < 10; i++) {
-            featureService.createFeature(FeatureModel.builder()
-                    .establishmentId(1L)
-                    .feature("вкусная еда")
-                    .build());
-        }
-        for (int i = 10; i < 20; i++) {
-            featureService.createFeature(FeatureModel.builder()
-                    .establishmentId(2L)
-                    .feature("отличная музыка")
-                    .build());
-        }
+//
+//        CategoryModel cafe = new CategoryModel();
+//        cafe.setName("name");
+//        categoryService.createCategory(cafe);
+//        CategoryModel bar = new CategoryModel();
+//        bar.setName("bar");
+//        categoryService.createCategory(bar);
+//
+//        for (int i = 0; i < 10; i++) {
+//            establishmentService.createEstablishment(EstablishmentModel.builder()
+//                    .name("name" + i)
+//                    .address("address" + i)
+//                    .workSchedule("19:0" + i + "-04:00")
+//                    .userId(1L)
+//                    .categoryId(1L)
+//                    .build());
+//        }
+//        for (int i = 10; i < 20; i++) {
+//            establishmentService.createEstablishment(EstablishmentModel.builder()
+//                    .name("name" + i)
+//                    .address("address" + i)
+//                    .workSchedule("19:0" + i + "-04:00")
+//                    .userId(2L)
+//                    .categoryId(2L)
+//                    .build());
+//        }
+//        for (int i = 0; i < 10; i++) {
+//            featureService.createFeature(FeatureModel.builder()
+//                    .establishmentId(1L)
+//                    .feature("вкусная еда")
+//                    .build());
+//        }
+//        for (int i = 10; i < 20; i++) {
+//            featureService.createFeature(FeatureModel.builder()
+//                    .establishmentId(2L)
+//                    .feature("отличная музыка")
+//                    .build());
+//        }
     }
 }

@@ -10,4 +10,5 @@ public class UserModel {
     private String password;
     private String email;
     private Long userRoleId;
+    private Long isActive;
 }

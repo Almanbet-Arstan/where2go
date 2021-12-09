@@ -17,6 +17,7 @@ public class UserConverter extends BaseConverter<UserModel, User>{
                 .login(entityToConvert.getLogin())
                 .password(entityToConvert.getPassword())
                 .email(entityToConvert.getEmail())
+                .isActive(entityToConvert.getIsActive())
                 .userRoleId(entityToConvert.getUserRole().getId())
                 .build();
     }
@@ -29,6 +30,7 @@ public class UserConverter extends BaseConverter<UserModel, User>{
         userToReturn.setLogin(modelToConvert.getLogin());
         userToReturn.setPassword(modelToConvert.getPassword());
         userToReturn.setEmail(modelToConvert.getEmail());
+        userToReturn.setIsActive(modelToConvert.getIsActive());
         UserRole userRole = new UserRole();
         userRole.setId(modelToConvert.getUserRoleId());
         userToReturn.setUserRole(userRole);

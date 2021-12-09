@@ -16,7 +16,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public Page<User> getPage(Pageable pageable) {
+    public Page<UserModel> getPage(Pageable pageable) {
         return userService.getPage(pageable);
     }
 

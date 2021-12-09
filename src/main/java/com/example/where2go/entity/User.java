@@ -22,6 +22,9 @@ public class User extends BaseEntity{
     @Column(name = "email")
     private String email;
 
+    @Column(name = "is_active")
+    private Long isActive;
+
     @ManyToOne
     @JoinColumn(name = "user_role_id")
     private UserRole userRole;
