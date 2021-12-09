@@ -13,5 +13,5 @@ public interface FeatureService {
     FeatureModel getById(Long id);
     FeatureModel updateFeature(FeatureModel featureModel);
     FeatureModel deleteById(Long id);
-    Page<Feature> getPage(Pageable pageable);
+    Page<FeatureModel> getPage(Pageable pageable);
 }

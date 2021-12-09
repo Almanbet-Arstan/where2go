@@ -31,6 +31,8 @@ public class EstablishmentImageServiceImpl implements EstablishmentImageService 
 
     @Override
     public ApiException createEstablishmentImage(EstablishmentImageModel establishmentImageModel) {
+        if (establishmentImageModel.getImageId() == null)  throw new ApiException("Введите id фотографии", HttpStatus.BAD_REQUEST);
+        if (establishmentImageModel.getEstablishmentId() == null) throw new ApiException("Введите id заведения", HttpStatus.BAD_REQUEST);
         establishmentImageRepository.save(establishmentImageConverter.convertFromModel(establishmentImageModel));
         return new ApiException("Все успешно сохранилось", HttpStatus.OK);
     }
@@ -41,12 +43,15 @@ public class EstablishmentImageServiceImpl implements EstablishmentImageService 
         for (EstablishmentImage establishmentImage:establishmentImageRepository.findAll()) {
             establishmentImageModels.add(establishmentImageConverter.convertFromEntity(establishmentImage));
         }
+        if (establishmentImageModels.isEmpty()) throw new ApiException("Список пуст", HttpStatus.BAD_REQUEST);
         return establishmentImageModels;
     }
 
     @Override
     public EstablishmentImageModel getById(Long id) {
-        return establishmentImageConverter.convertFromEntity(establishmentImageRepository.findById(id).orElse(null));
+        EstablishmentImageModel establishmentImageModel = establishmentImageConverter.convertFromEntity(establishmentImageRepository.findById(id).orElse(null));
+        if (establishmentImageModel == null) throw new ApiException("Не нашли фотографию заведения по id " + id, HttpStatus.BAD_REQUEST);
+        return establishmentImageModel;
     }
 
     @Override
@@ -68,13 +73,4 @@ public class EstablishmentImageServiceImpl implements EstablishmentImageService 
         return establishmentImageModelForDelete;
     }
 
-//    @PostMapping("/upload-image")
-//    public User saveImageForUser(@RequestParam List<MultipartFile> multipartFiles,
-//                                 @RequestParam String userBody) throws JsonProcessingException {
-//        System.out.println(multipartFiles.size());
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        User user = objectMapper.readValue(userBody, User.class);
-//        return user;
-//
-//    }
 }

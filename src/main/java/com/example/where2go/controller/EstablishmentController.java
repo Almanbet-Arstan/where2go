@@ -20,12 +20,12 @@ public class EstablishmentController {
     private EstablishmentService establishmentService;
 
     @GetMapping
-    public Page<Establishment> getPage(Pageable pageable){
+    public Page<EstablishmentModel> getPage(Pageable pageable){
         return establishmentService.getPage(pageable);
     }
 
     @PostMapping("/pageable")
-    public Page<Establishment> getSortedPage(@RequestBody EstablishmentModel establishmentModel, Pageable pageable) {
+    public Page<EstablishmentModel> getSortedPage(@RequestBody EstablishmentModel establishmentModel, Pageable pageable) {
         return establishmentService.getSortedPage(establishmentModel, pageable);
     }
 

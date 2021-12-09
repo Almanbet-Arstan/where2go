@@ -3,12 +3,14 @@ package com.example.where2go.service.impl;
 import com.example.where2go.converter.FeatureConverter;
 import com.example.where2go.entity.Feature;
 import com.example.where2go.entity.User;
+import com.example.where2go.exceptions.ApiException;
 import com.example.where2go.model.FeatureModel;
 import com.example.where2go.repository.FeatureRepository;
 import com.example.where2go.service.FeatureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,19 +27,25 @@ public class FeatureServiceImpl implements FeatureService {
 
     @Override
     public FeatureModel createFeature(FeatureModel featureModel) {
+        if (featureModel.getFeature().isEmpty()) throw new ApiException("Введите особенность", HttpStatus.BAD_REQUEST);
+        if (featureModel.getEstablishmentId() == null) throw new ApiException("Введите id заведения", HttpStatus.BAD_REQUEST);
         featureRepository.save(featureConverter.convertFromModel(featureModel));
         return featureModel;
     }
 
     @Override
-    public Page<Feature> getPage(Pageable pageable) {
-        return featureRepository.findAll(pageable);
+    public Page<FeatureModel> getPage(Pageable pageable) {
+        Page<Feature> featurePage = featureRepository.findAll(pageable);
+        if (featurePage.getContent().isEmpty()) throw new ApiException("Список пуст", HttpStatus.BAD_REQUEST);
+        return featurePage.map(featureConverter::convertFromEntity);
     }
 
 
     @Override
     public FeatureModel getById(Long id) {
-        return featureConverter.convertFromEntity(featureRepository.findById(id).orElse(null));
+        FeatureModel featureModel = featureConverter.convertFromEntity(featureRepository.findById(id).orElse(null));
+        if (featureModel == null) throw new ApiException("Не нашли особенность по id " + id, HttpStatus.BAD_REQUEST);
+        return featureModel;
     }
 
     @Override

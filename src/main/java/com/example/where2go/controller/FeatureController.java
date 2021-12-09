@@ -19,7 +19,7 @@ public class FeatureController {
     private FeatureService featureService;
 
     @GetMapping
-    public Page<Feature> getPage(Pageable pageable) {
+    public Page<FeatureModel> getPage(Pageable pageable) {
         return featureService.getPage(pageable);
     }
 

@@ -4,12 +4,14 @@ import com.example.where2go.converter.UserConverter;
 import com.example.where2go.converter.UserRoleConverter;
 import com.example.where2go.entity.User;
 import com.example.where2go.entity.UserRole;
+import com.example.where2go.exceptions.ApiException;
 import com.example.where2go.model.UserModel;
 import com.example.where2go.model.UserRoleModel;
 import com.example.where2go.repository.UserRepository;
 import com.example.where2go.repository.UserRoleRepository;
 import com.example.where2go.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public UserRoleModel createUserRole(UserRoleModel userRoleModel) {
+        if (userRoleModel.getRoleName().isEmpty()) throw new ApiException("Введите название роли", HttpStatus.BAD_REQUEST);
         userRoleRepository.save(userRoleConverter.convertFromModel(userRoleModel));
         return userRoleModel;
     }
@@ -36,12 +39,15 @@ public class UserRoleServiceImpl implements UserRoleService {
         for (UserRole userRole:userRoleRepository.findAll()) {
             userRoleModels.add(userRoleConverter.convertFromEntity(userRole));
         }
+        if (userRoleModels.isEmpty()) throw new ApiException("Список пустой", HttpStatus.BAD_REQUEST);
         return userRoleModels;
     }
 
     @Override
     public UserRoleModel getById(Long id) {
-        return userRoleConverter.convertFromEntity(userRoleRepository.findById(id).orElse(null));
+        UserRoleModel userRoleModel = userRoleConverter.convertFromEntity(userRoleRepository.findById(id).orElse(null));
+        if (userRoleModel == null) throw new ApiException("Не нашли роль по id " + id, HttpStatus.BAD_REQUEST);
+        return userRoleModel;
     }
 
     @Override

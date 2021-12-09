@@ -43,14 +43,14 @@ public class ApplicationStartRunner implements CommandLineRunner {
         client.setRoleName("ROLE_CLIENT");
         userRoleService.createUserRole(client);
 
-        for (int i = 0; i < 20; i++) {
-            userService.createUser(UserModel.builder()
-                    .login("user" + i)
-                    .password("password" + i)
-                    .email("astan" + i + "@mail.ru")
-                    .userRoleId(2L)
-                    .build());
-        }
+//        for (int i = 0; i < 20; i++) {
+//            userService.createUser(UserModel.builder()
+//                    .login("user" + i)
+//                    .password("password" + i)
+//                    .email("astan" + i + "@mail.ru")
+//                    .userRoleId(2L)
+//                    .build());
+//        }
 //
 //        CategoryModel cafe = new CategoryModel();
 //        cafe.setName("name");

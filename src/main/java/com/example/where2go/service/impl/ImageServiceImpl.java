@@ -5,12 +5,14 @@ import com.cloudinary.utils.ObjectUtils;
 import com.example.where2go.converter.ImageConverter;
 import com.example.where2go.entity.Feature;
 import com.example.where2go.entity.Image;
+import com.example.where2go.exceptions.ApiException;
 import com.example.where2go.model.EstablishmentImageModel;
 import com.example.where2go.model.FeatureModel;
 import com.example.where2go.model.ImageModel;
 import com.example.where2go.repository.ImageRepository;
 import com.example.where2go.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,6 +39,7 @@ public class ImageServiceImpl implements ImageService {
         for (Image image:imageRepository.findAll()) {
             imageModels.add(imageConverter.convertFromEntity(image));
         }
+        if (imageModels.isEmpty()) throw new ApiException("Список пустой", HttpStatus.BAD_REQUEST);
         return imageModels;
     }
 
@@ -75,20 +78,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public ImageModel saveImage(MultipartFile multipartFile) {
+        if (multipartFile == null) throw new ApiException("Вы не добавили файл", HttpStatus.BAD_REQUEST);
         String imageUrl = saveImageInCloudinary(multipartFile);
         return saveImage(imageUrl);
-//        public EstablishmentImageModel addingImages(ImagesForAddingModel imagesForAddingModel) {
-//
-//            EstablishmentImageModel establishmentImageModel = new EstablishmentImageModel();
-//
-//            for(Image image : imagesForAddingModel.getImages()) {
-//                imageService.saveImage(image.getUrl());
-//                establishmentImageModel.setEstablishmentId(imagesForAddingModel.getEstablishmentId());
-//                establishmentImageModel.setImageId(image.getId());
-//                establishmentImageRepository.save(establishmentImageConverter.convertFromModel(establishmentImageModel));
-//            }
-//
-//            return establishmentImageModel;
-//        }
     }
 }

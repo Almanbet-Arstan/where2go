@@ -15,7 +15,7 @@ public interface EstablishmentService {
     EstablishmentModel getById(Long id);
     EstablishmentModel updateEstablishment(EstablishmentModel establishmentModel);
     EstablishmentModel deleteById(Long id);
-    Page<Establishment> getPage(Pageable pageable);
-    Page<Establishment> getSortedPage(EstablishmentModel establishmentModel, Pageable pageable);
+    Page<EstablishmentModel> getPage(Pageable pageable);
+    Page<EstablishmentModel> getSortedPage(EstablishmentModel establishmentModel, Pageable pageable);
     ApiException saveImages(List<MultipartFile> images, Long establishmentId);
 }

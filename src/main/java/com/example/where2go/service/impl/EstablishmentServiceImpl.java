@@ -40,13 +40,20 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
     @Override
     public EstablishmentModel createEstablishment(EstablishmentModel establishmentModel) {
+        if (establishmentModel.getName().isEmpty()) throw new ApiException("Введите имя", HttpStatus.BAD_REQUEST);
+        if (establishmentModel.getAddress().isEmpty()) throw new ApiException("Введите адрес", HttpStatus.BAD_REQUEST);
+        if (establishmentModel.getWorkSchedule().isEmpty()) throw new ApiException("Введите время работы", HttpStatus.BAD_REQUEST);
+        if (establishmentModel.getUserId() == null) throw new ApiException("Введите владельца", HttpStatus.BAD_REQUEST);
+        if (establishmentModel.getCategoryId() == null) throw new ApiException("Введите категорию", HttpStatus.BAD_REQUEST);
         establishmentRepository.save(establishmentConverter.convertFromModel(establishmentModel));
         return establishmentModel;
     }
 
     @Override
     public EstablishmentModel getById(Long id) {
-        return establishmentConverter.convertFromEntity(establishmentRepository.findById(id).orElse(null));
+        EstablishmentModel establishmentModel = establishmentConverter.convertFromEntity(establishmentRepository.findById(id).orElse(null));
+        if (establishmentModel == null) throw new ApiException("Не нашли заведение по id " + id, HttpStatus.BAD_REQUEST);
+        return establishmentModel;
     }
 
     @Override
@@ -72,18 +79,24 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
-    public Page<Establishment> getPage(Pageable pageable) {
-        return establishmentRepository.findAll(pageable);
+    public Page<EstablishmentModel> getPage(Pageable pageable) {
+        Page<Establishment> establishmentPage = establishmentRepository.findAll(pageable);
+        if (establishmentPage.getContent().isEmpty()) throw new ApiException("Список пуст", HttpStatus.BAD_REQUEST);
+        return establishmentPage.map(establishmentConverter::convertFromEntity);
     }
 
     @Override
-    public Page<Establishment> getSortedPage(EstablishmentModel establishmentModel, Pageable pageable) {
+    public Page<EstablishmentModel> getSortedPage(EstablishmentModel establishmentModel, Pageable pageable) {
         EstablishmentSpecification establishmentSpecification = new EstablishmentSpecification(establishmentModel);
-        return establishmentRepository.findAll(establishmentSpecification, pageable);
+        Page<Establishment> establishmentPage = establishmentRepository.findAll(establishmentSpecification, pageable);
+        if (establishmentPage.getContent().isEmpty()) throw new ApiException("Список пуст", HttpStatus.BAD_REQUEST);
+        return establishmentPage.map(establishmentConverter::convertFromEntity);
     }
 
     @Override
     public ApiException saveImages(List<MultipartFile> images, Long establishmentId) {
+        if (establishmentId == null) throw new ApiException("Введите id заведения", HttpStatus.BAD_REQUEST);
+        if (images.isEmpty()) throw new ApiException("Картинок нету", HttpStatus.BAD_REQUEST);
         for (MultipartFile image:images) {
             EstablishmentImageModel establishmentImageModel = new EstablishmentImageModel();
             ImageModel i = imageService.saveImage(image);
