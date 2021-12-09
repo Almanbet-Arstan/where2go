@@ -1,12 +1,17 @@
 package com.example.where2go.controller;
 
+import com.example.where2go.entity.Establishment;
+import com.example.where2go.exceptions.ApiException;
 import com.example.where2go.model.EstablishmentModel;
 import com.example.where2go.service.EstablishmentService;
 import com.example.where2go.service.FeatureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/establishment")
@@ -15,8 +20,13 @@ public class EstablishmentController {
     private EstablishmentService establishmentService;
 
     @GetMapping
-    public List<EstablishmentModel> getAll(){
-        return establishmentService.getAll();
+    public Page<Establishment> getPage(Pageable pageable){
+        return establishmentService.getPage(pageable);
+    }
+
+    @PostMapping("/pageable")
+    public Page<Establishment> getSortedPage(@RequestBody EstablishmentModel establishmentModel, Pageable pageable) {
+        return establishmentService.getSortedPage(establishmentModel, pageable);
     }
 
     @GetMapping("/{id}")
@@ -27,6 +37,12 @@ public class EstablishmentController {
     @PostMapping
     public EstablishmentModel createEstablishment(@RequestBody EstablishmentModel establishmentModel){
         return establishmentService.createEstablishment(establishmentModel);
+    }
+
+    @PostMapping("/images")
+    public ApiException saveImages(@RequestParam List<MultipartFile> images,
+                                   @RequestParam Long establishmentId){
+        return establishmentService.saveImages(images, establishmentId);
     }
 
     @PutMapping

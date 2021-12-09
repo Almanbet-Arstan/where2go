@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class EstablishmentImage extends BaseEntity{
+
     @ManyToOne
     @JoinColumn(name = "image_id")
     private Image image;

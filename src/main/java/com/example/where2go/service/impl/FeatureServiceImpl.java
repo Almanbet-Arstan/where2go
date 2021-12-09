@@ -2,10 +2,13 @@ package com.example.where2go.service.impl;
 
 import com.example.where2go.converter.FeatureConverter;
 import com.example.where2go.entity.Feature;
+import com.example.where2go.entity.User;
 import com.example.where2go.model.FeatureModel;
 import com.example.where2go.repository.FeatureRepository;
 import com.example.where2go.service.FeatureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,13 +30,10 @@ public class FeatureServiceImpl implements FeatureService {
     }
 
     @Override
-    public List<FeatureModel> getAll() {
-        List<FeatureModel> featureModels = new ArrayList<>();
-        for (Feature feature:featureRepository.findAll()) {
-            featureModels.add(featureConverter.convertFromEntity(feature));
-        }
-        return featureModels;
+    public Page<Feature> getPage(Pageable pageable) {
+        return featureRepository.findAll(pageable);
     }
+
 
     @Override
     public FeatureModel getById(Long id) {

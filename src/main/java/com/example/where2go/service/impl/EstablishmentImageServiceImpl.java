@@ -3,11 +3,17 @@ package com.example.where2go.service.impl;
 import com.example.where2go.converter.EstablishmentImageConverter;
 import com.example.where2go.entity.EstablishmentImage;
 import com.example.where2go.entity.Image;
+import com.example.where2go.entity.User;
+import com.example.where2go.exceptions.ApiException;
 import com.example.where2go.model.EstablishmentImageModel;
 import com.example.where2go.repository.EstablishmentImageRepository;
+import com.example.where2go.repository.ImageRepository;
 import com.example.where2go.service.EstablishmentImageService;
 import com.example.where2go.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,10 +28,11 @@ public class EstablishmentImageServiceImpl implements EstablishmentImageService 
     @Autowired
     private EstablishmentImageConverter establishmentImageConverter;
 
+
     @Override
-    public EstablishmentImageModel createEstablishmentImage(EstablishmentImageModel establishmentImageModel) {
+    public ApiException createEstablishmentImage(EstablishmentImageModel establishmentImageModel) {
         establishmentImageRepository.save(establishmentImageConverter.convertFromModel(establishmentImageModel));
-        return establishmentImageModel;
+        return new ApiException("Все успешно сохранилось", HttpStatus.OK);
     }
 
     @Override
@@ -60,4 +67,14 @@ public class EstablishmentImageServiceImpl implements EstablishmentImageService 
 
         return establishmentImageModelForDelete;
     }
+
+//    @PostMapping("/upload-image")
+//    public User saveImageForUser(@RequestParam List<MultipartFile> multipartFiles,
+//                                 @RequestParam String userBody) throws JsonProcessingException {
+//        System.out.println(multipartFiles.size());
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        User user = objectMapper.readValue(userBody, User.class);
+//        return user;
+//
+//    }
 }

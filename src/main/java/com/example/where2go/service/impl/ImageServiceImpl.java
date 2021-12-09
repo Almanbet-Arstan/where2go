@@ -68,7 +68,8 @@ public class ImageServiceImpl implements ImageService {
     public ImageModel saveImage(String url) {
         ImageModel image = new ImageModel();
         image.setUrl(url);
-        imageRepository.save(imageConverter.convertFromModel(image));
+        Image savedImage = imageRepository.save(imageConverter.convertFromModel(image));
+        image.setId(savedImage.getId());
         return image;
     }
 

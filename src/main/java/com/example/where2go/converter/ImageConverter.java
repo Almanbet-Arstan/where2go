@@ -15,6 +15,7 @@ public class ImageConverter extends BaseConverter<ImageModel, Image>{
     private static ImageModel convertToModel(Image entityToConvert){
         if (entityToConvert == null) return null;
         return ImageModel.builder()
+                .id(entityToConvert.getId())
                 .url(entityToConvert.getUrl())
                 .build();
     }
@@ -24,6 +25,7 @@ public class ImageConverter extends BaseConverter<ImageModel, Image>{
 
         Image imageToReturn = new Image();
 
+        imageToReturn.setId(modelToConvert.getId());
         imageToReturn.setUrl(modelToConvert.getUrl());
 
         return imageToReturn;

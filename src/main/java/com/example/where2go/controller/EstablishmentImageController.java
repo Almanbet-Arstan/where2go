@@ -1,5 +1,6 @@
 package com.example.where2go.controller;
 
+import com.example.where2go.exceptions.ApiException;
 import com.example.where2go.model.EstablishmentImageModel;
 import com.example.where2go.service.EstablishmentImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class EstablishmentImageController {
     }
 
     @PostMapping
-    public EstablishmentImageModel createEstablishment(@RequestBody EstablishmentImageModel establishmentImageModel){
+    public ApiException createEstablishment(@RequestBody EstablishmentImageModel establishmentImageModel){
         return establishmentImageService.createEstablishmentImage(establishmentImageModel);
     }
 

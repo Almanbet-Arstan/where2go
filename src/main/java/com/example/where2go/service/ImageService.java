@@ -9,6 +9,5 @@ public interface ImageService {
     List<ImageModel> getAll();
     String saveImageInCloudinary(MultipartFile multipartFile);
     ImageModel saveImage(String url);
-
     ImageModel saveImage(MultipartFile multipartFile);
 }

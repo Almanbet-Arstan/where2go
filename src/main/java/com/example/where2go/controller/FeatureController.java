@@ -1,9 +1,13 @@
 package com.example.where2go.controller;
 
+import com.example.where2go.entity.Feature;
+import com.example.where2go.entity.User;
 import com.example.where2go.model.FeatureModel;
 import com.example.where2go.service.FeatureService;
 import com.example.where2go.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +19,8 @@ public class FeatureController {
     private FeatureService featureService;
 
     @GetMapping
-    public List<FeatureModel> getAll(){
-        return featureService.getAll();
+    public Page<Feature> getPage(Pageable pageable) {
+        return featureService.getPage(pageable);
     }
 
     @GetMapping("/{id}")

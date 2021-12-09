@@ -2,17 +2,21 @@ package com.example.where2go.service.impl;
 
 import com.example.where2go.converter.UserConverter;
 import com.example.where2go.entity.User;
+import com.example.where2go.exceptions.ApiException;
 import com.example.where2go.model.UserAuthModel;
 import com.example.where2go.model.UserModel;
 import com.example.where2go.repository.UserRepository;
 import com.example.where2go.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
-import java.util.List;
+import java.util.Calendar;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,12 +39,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserModel> getAll() {
-        List<UserModel> userModels = new ArrayList<>();
-        for (User user:userRepository.findAll()) {
-            userModels.add(userConverter.convertFromEntity(user));
-        }
-        return userModels;
+    public Page<User> getPage(Pageable pageable) {
+        Page<User> userPage = userRepository.findAll(pageable);
+
+        if (userPage.getContent().isEmpty())
+            throw new ApiException("Список пустой", HttpStatus.BAD_REQUEST);
+        return userPage;
     }
 
     @Override

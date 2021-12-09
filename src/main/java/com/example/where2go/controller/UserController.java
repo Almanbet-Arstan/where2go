@@ -1,14 +1,13 @@
 package com.example.where2go.controller;
 
+import com.example.where2go.entity.User;
 import com.example.where2go.model.UserAuthModel;
 import com.example.where2go.model.UserModel;
-import com.example.where2go.model.UserRoleModel;
-import com.example.where2go.service.UserRoleService;
 import com.example.where2go.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -17,8 +16,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<UserModel> getAll(){
-        return userService.getAll();
+    public Page<User> getPage(Pageable pageable) {
+        return userService.getPage(pageable);
     }
 
     @GetMapping("/{id}")
