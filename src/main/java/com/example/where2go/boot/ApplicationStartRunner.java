@@ -32,6 +32,8 @@ public class ApplicationStartRunner implements CommandLineRunner {
     @Autowired
     private FeatureService featureService;
 
+    @Autowired ReviewService reviewService;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -87,6 +89,14 @@ public class ApplicationStartRunner implements CommandLineRunner {
 //            featureService.createFeature(FeatureModel.builder()
 //                    .establishmentId(2L)
 //                    .feature("отличная музыка")
+//                    .build());
+//        }
+//
+//        for (int i = 0; i < 10; i++) {
+//            reviewService.createReview(ReviewModel.builder()
+//                    .review("Дерьмовое место и цены высокие")
+//                    .establishmentId(1L)
+//                    .userId(1L)
 //                    .build());
 //        }
     }

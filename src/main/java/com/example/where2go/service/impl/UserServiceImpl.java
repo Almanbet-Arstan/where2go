@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -109,5 +110,13 @@ public class UserServiceImpl implements UserService {
         String authHeader = new String(Base64.getEncoder().encode(fullNamePasswordPair.getBytes()));
 
         return "Basic " + authHeader;
+    }
+
+    @Override
+    public User getCurrentUser() {
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.getByLogin(login).orElse(null);
+        if (user == null) throw new ApiException("Такого пользователя не существует", HttpStatus.BAD_REQUEST);
+        return user;
     }
 }

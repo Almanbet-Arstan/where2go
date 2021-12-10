@@ -25,6 +25,11 @@ public class UserController {
         return userService.getById(id);
     }
 
+    @GetMapping("/get-current")
+    public User getCurrentUser(){
+        return userService.getCurrentUser();
+    }
+
     @PostMapping
     public UserModel createUser(@RequestBody UserModel userModel){
         return userService.createUser(userModel);

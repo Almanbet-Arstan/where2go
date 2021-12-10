@@ -12,6 +12,7 @@ import com.example.where2go.repository.EstablishmentRepository;
 import com.example.where2go.service.EstablishmentImageService;
 import com.example.where2go.service.EstablishmentService;
 import com.example.where2go.service.ImageService;
+import com.example.where2go.service.UserService;
 import com.example.where2go.specification.EstablishmentSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,13 +39,16 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     @Autowired
     private EstablishmentImageService establishmentImageService;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public EstablishmentModel createEstablishment(EstablishmentModel establishmentModel) {
         if (establishmentModel.getName().isEmpty()) throw new ApiException("Введите имя", HttpStatus.BAD_REQUEST);
         if (establishmentModel.getAddress().isEmpty()) throw new ApiException("Введите адрес", HttpStatus.BAD_REQUEST);
         if (establishmentModel.getWorkSchedule().isEmpty()) throw new ApiException("Введите время работы", HttpStatus.BAD_REQUEST);
-        if (establishmentModel.getUserId() == null) throw new ApiException("Введите владельца", HttpStatus.BAD_REQUEST);
         if (establishmentModel.getCategoryId() == null) throw new ApiException("Введите категорию", HttpStatus.BAD_REQUEST);
+        establishmentModel.setUserId(userService.getCurrentUser().getId());
         establishmentRepository.save(establishmentConverter.convertFromModel(establishmentModel));
         return establishmentModel;
     }
@@ -64,8 +68,6 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         if (establishmentModel.getAddress() != null) establishmentModelForUpdate.setAddress(establishmentModel.getAddress());
         if (establishmentModel.getWorkSchedule() != null) establishmentModelForUpdate.setWorkSchedule(establishmentModel.getWorkSchedule());
         if (establishmentModel.getCategoryId() != null) establishmentModelForUpdate.setCategoryId(establishmentModel.getCategoryId());
-        if (establishmentModel.getUserId() != null) establishmentModelForUpdate.setUserId(establishmentModel.getUserId());
-
         establishmentRepository.save(establishmentConverter.convertFromModel(establishmentModelForUpdate));
         return establishmentModelForUpdate;
     }
@@ -99,8 +101,8 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         if (images.isEmpty()) throw new ApiException("Картинок нету", HttpStatus.BAD_REQUEST);
         for (MultipartFile image:images) {
             EstablishmentImageModel establishmentImageModel = new EstablishmentImageModel();
-            ImageModel i = imageService.saveImage(image);
-            establishmentImageModel.setImageId(i.getId());
+            ImageModel imageModel = imageService.saveImage(image);
+            establishmentImageModel.setImageId(imageModel.getId());
             establishmentImageModel.setEstablishmentId(establishmentId);
             establishmentImageService.createEstablishmentImage(establishmentImageModel);
         }

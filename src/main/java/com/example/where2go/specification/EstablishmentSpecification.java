@@ -25,7 +25,6 @@ public class EstablishmentSpecification implements Specification<Establishment> 
             predicates.add(establishmentCriteriaBuilder.like(establishmentCriteriaBuilder.lower(establishmentRoot.get("name")), "%" + establishmentModel.getName() + "%"));
         }
 
-
         if (establishmentModel.getAddress() != null) {
             predicates.add(establishmentCriteriaBuilder.like(establishmentCriteriaBuilder.lower(establishmentRoot.get("address")), "%" + establishmentModel.getAddress() + "%"));
         }

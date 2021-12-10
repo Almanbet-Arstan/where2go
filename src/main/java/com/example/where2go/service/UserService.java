@@ -13,4 +13,5 @@ public interface UserService {
     UserModel updateUser(UserModel userModel);
     UserModel deleteById(Long id);
     String getBasicAuthHeaderByAuthModel(UserAuthModel userAuthModel);
+    User getCurrentUser();
 }
