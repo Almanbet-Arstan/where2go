@@ -1,6 +1,7 @@
 package com.example.where2go.service.impl;
 
 import com.example.where2go.converter.ReviewConverter;
+import com.example.where2go.entity.Establishment;
 import com.example.where2go.entity.Review;
 import com.example.where2go.exceptions.ApiException;
 import com.example.where2go.model.ReviewModel;
@@ -29,6 +30,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewModel createReview(ReviewModel reviewModel) {
         if (reviewModel.getReview().isEmpty()) throw new ApiException("Введите отзыв", HttpStatus.BAD_REQUEST);
+        if (reviewModel.getEstablishmentId() == null) throw new ApiException("Такого заведения не существует", HttpStatus.BAD_REQUEST);
         reviewModel.setUserId(userService.getCurrentUser().getId());
         reviewRepository.save(reviewConverter.convertFromModel(reviewModel));
         return reviewModel;
@@ -37,6 +39,13 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Page<ReviewModel> getPage(Pageable pageable) {
         Page<Review> reviewPage = reviewRepository.findAll(pageable);
+        if (reviewPage.getContent().isEmpty()) throw new ApiException("Список пуст", HttpStatus.BAD_REQUEST);
+        return reviewPage.map(reviewConverter::convertFromEntity);
+    }
+
+    @Override
+    public Page<ReviewModel> getPageSortedByEstablishmentId(Long id, Pageable pageable) {
+        Page<Review> reviewPage = reviewRepository.findAllByEstablishmentId(id, pageable);
         if (reviewPage.getContent().isEmpty()) throw new ApiException("Список пуст", HttpStatus.BAD_REQUEST);
         return reviewPage.map(reviewConverter::convertFromEntity);
     }

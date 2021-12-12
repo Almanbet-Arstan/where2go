@@ -1,7 +1,5 @@
 package com.example.where2go.service;
 
-import com.example.where2go.entity.Establishment;
-import com.example.where2go.entity.User;
 import com.example.where2go.exceptions.ApiException;
 import com.example.where2go.model.EstablishmentModel;
 import org.springframework.data.domain.Page;
@@ -16,6 +14,7 @@ public interface EstablishmentService {
     EstablishmentModel updateEstablishment(EstablishmentModel establishmentModel);
     EstablishmentModel deleteById(Long id);
     Page<EstablishmentModel> getPage(Pageable pageable);
+    Page<EstablishmentModel> getPageSortedByCategory(Long id, Pageable pageable);
     Page<EstablishmentModel> getSortedPage(EstablishmentModel establishmentModel, Pageable pageable);
     ApiException saveImages(List<MultipartFile> images, Long establishmentId);
 }

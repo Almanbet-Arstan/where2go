@@ -29,6 +29,11 @@ public class EstablishmentController {
         return establishmentService.getSortedPage(establishmentModel, pageable);
     }
 
+    @GetMapping("/category/{id}")
+    public Page<EstablishmentModel> getPageSortedByCategory(@PathVariable Long id, Pageable pageable){
+        return establishmentService.getPageSortedByCategory(id, pageable);
+    }
+
     @GetMapping("/{id}")
     public EstablishmentModel getById(@PathVariable Long id){
         return establishmentService.getById(id);

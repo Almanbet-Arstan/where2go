@@ -21,6 +21,11 @@ public class ReviewController {
         return reviewService.getPage(pageable);
     }
 
+    @GetMapping("/establishment/{id}")
+    public Page<ReviewModel> getPageSortedByEstablishmentId(@PathVariable Long id, Pageable pageable){
+        return reviewService.getPageSortedByEstablishmentId(id, pageable);
+    }
+
     @PostMapping("/pageable")
     public Page<ReviewModel> getSortedPage(@RequestBody ReviewModel reviewModel, Pageable pageable) {
         return reviewService.getSortedPage(reviewModel, pageable);

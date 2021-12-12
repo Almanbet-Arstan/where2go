@@ -10,6 +10,7 @@ import java.util.List;
 public interface ReviewService {
     ReviewModel createReview(ReviewModel reviewModel);
     Page<ReviewModel> getPage(Pageable pageable);
+    Page<ReviewModel> getPageSortedByEstablishmentId(Long id, Pageable pageable);
     Page<ReviewModel> getSortedPage(ReviewModel reviewModel, Pageable pageable);
     ReviewModel getById(Long id);
     ReviewModel updateReview(ReviewModel reviewModel);

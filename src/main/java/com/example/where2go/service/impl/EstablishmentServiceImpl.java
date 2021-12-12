@@ -88,6 +88,13 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     }
 
     @Override
+    public Page<EstablishmentModel> getPageSortedByCategory(Long id, Pageable pageable) {
+        Page<Establishment> establishmentPage = establishmentRepository.findAllByCategoryId(id, pageable);
+        if (establishmentPage.getContent().isEmpty()) throw new ApiException("Список пуст", HttpStatus.BAD_REQUEST);
+        return establishmentPage.map(establishmentConverter::convertFromEntity);
+    }
+
+    @Override
     public Page<EstablishmentModel> getSortedPage(EstablishmentModel establishmentModel, Pageable pageable) {
         EstablishmentSpecification establishmentSpecification = new EstablishmentSpecification(establishmentModel);
         Page<Establishment> establishmentPage = establishmentRepository.findAll(establishmentSpecification, pageable);

@@ -33,10 +33,6 @@ public class EstablishmentSpecification implements Specification<Establishment> 
             predicates.add(establishmentCriteriaBuilder.like(establishmentCriteriaBuilder.lower(establishmentRoot.get("work_schedule")), "%" + establishmentModel.getWorkSchedule() + "%"));
         }
 
-        if (establishmentModel.getCategoryId() != null) {
-            predicates.add(establishmentCriteriaBuilder.like(establishmentCriteriaBuilder.lower(establishmentRoot.get("category_id")), "%" + establishmentModel.getCategoryId() + "%"));
-        }
-
         return establishmentCriteriaBuilder.and(predicates.toArray(new Predicate[0]));
     }
 

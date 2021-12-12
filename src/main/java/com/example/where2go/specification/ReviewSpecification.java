@@ -27,14 +27,6 @@ public class ReviewSpecification implements Specification<Review> {
             predicates.add(reviewCriteriaBuilder.like(reviewCriteriaBuilder.lower(reviewRoot.get("review")), "%" + reviewModel.getReview() + "%"));
         }
 
-        if (reviewModel.getEstablishmentId() != null) {
-            predicates.add(reviewCriteriaBuilder.like(reviewCriteriaBuilder.lower(reviewRoot.get("establishment_id")), "%" + reviewModel.getEstablishmentId() + "%"));
-        }
-
-        if (reviewModel.getUserId() != null) {
-            predicates.add(reviewCriteriaBuilder.like(reviewCriteriaBuilder.lower(reviewRoot.get("user_id")), "%" + reviewModel.getUserId() + "%"));
-        }
-
         return reviewCriteriaBuilder.and(predicates.toArray(new Predicate[0]));
     }
 }
