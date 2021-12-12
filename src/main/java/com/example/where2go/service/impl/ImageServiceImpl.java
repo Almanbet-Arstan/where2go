@@ -78,7 +78,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public ImageModel saveImage(MultipartFile multipartFile) {
-        if (multipartFile == null) throw new ApiException("Вы не добавили файл", HttpStatus.BAD_REQUEST);
+        if (multipartFile.isEmpty()) throw new ApiException("Вы не добавили файл", HttpStatus.BAD_REQUEST);
         String imageUrl = saveImageInCloudinary(multipartFile);
         return saveImage(imageUrl);
     }
