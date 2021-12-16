@@ -30,7 +30,9 @@ public class EstablishmentTableServiceImpl implements EstablishmentTableService 
     public EstablishmentTableModel createTable(EstablishmentTableModel tableModel) {
         if (tableModel.getEstablishmentId() == null) throw new ApiException("Введите заведение", HttpStatus.BAD_REQUEST);
         if (tableModel.getSeats() == null) throw new ApiException("Введите количество посадочных мест", HttpStatus.BAD_REQUEST);
-        establishmentTableRepository.save(establishmentTableConverter.convertFromModel(tableModel));
+        for (int i = 0; i < tableModel.getCount(); i++) {
+            establishmentTableRepository.save(establishmentTableConverter.convertFromModel(tableModel));
+        }
         return tableModel;
     }
 

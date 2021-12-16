@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     public static final Pattern VALID_PASSWORD_REGEX =
             Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$", Pattern.CASE_INSENSITIVE);
     public static final Pattern VALID_LOGIN_REGEX =
-            Pattern.compile("^[a-zA-Z0-9._-]{3,}$", Pattern.CASE_INSENSITIVE);
+            Pattern.compile("^[а-яa-zА-ЯA-Z0-9._-]{3,}$", Pattern.CASE_INSENSITIVE);
 
     @Autowired
     private PasswordEncoder passwordEncoder;

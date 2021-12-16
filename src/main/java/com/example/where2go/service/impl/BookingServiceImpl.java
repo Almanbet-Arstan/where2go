@@ -6,6 +6,7 @@ import com.example.where2go.exceptions.ApiException;
 import com.example.where2go.model.BookingModel;
 import com.example.where2go.repository.BookingRepository;
 import com.example.where2go.service.BookingService;
+import com.example.where2go.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,15 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private BookingConverter bookingConverter;
 
+    @Autowired
+    private UserService userService;
+
 
     @Override
     public BookingModel createBooking(BookingModel bookingModel) {
         if (bookingModel.getBookingTime().isEmpty()) throw new ApiException("Введите время бронирования", HttpStatus.BAD_REQUEST);
         if (bookingModel.getTableId() == null) throw new ApiException("Введите столик", HttpStatus.BAD_REQUEST);
+        bookingModel.setUserId(userService.getCurrentUser().getId());
         bookingRepository.save(bookingConverter.convertFromModel(bookingModel));
         return bookingModel;
     }

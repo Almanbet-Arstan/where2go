@@ -3,6 +3,7 @@ package com.example.where2go.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bookings")
@@ -14,7 +15,7 @@ import javax.persistence.*;
 public class Booking extends BaseEntity{
 
     @Column(name = "booking_time")
-    private String bookingTime;
+    private LocalDateTime bookingTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

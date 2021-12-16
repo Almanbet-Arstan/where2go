@@ -8,4 +8,5 @@ import lombok.*;
 public class EstablishmentTableModel {
     private Integer seats;
     private Long establishmentId;
+    private Integer count;
 }

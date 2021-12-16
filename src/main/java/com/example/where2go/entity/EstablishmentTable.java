@@ -12,6 +12,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 public class EstablishmentTable extends BaseEntity{
+
+//    @Column(name = "table_number")
+//    private Long number;
+
     @Column(name = "seats")
     private Integer seats;
 
