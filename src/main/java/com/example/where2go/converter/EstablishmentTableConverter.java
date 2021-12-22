@@ -14,6 +14,7 @@ public class EstablishmentTableConverter extends BaseConverter<EstablishmentTabl
     private static EstablishmentTableModel convertToModel(EstablishmentTable entityToConvert){
         if (entityToConvert == null) return null;
         return EstablishmentTableModel.builder()
+                .tableNumber(entityToConvert.getTableNumber())
                 .seats(entityToConvert.getSeats())
                 .establishmentId(entityToConvert.getEstablishment().getId())
                 .build();
@@ -25,6 +26,7 @@ public class EstablishmentTableConverter extends BaseConverter<EstablishmentTabl
         EstablishmentTable tableToReturn = new EstablishmentTable();
 
         tableToReturn.setSeats(modelToConvert.getSeats());
+        tableToReturn.setTableNumber(modelToConvert.getTableNumber());
 
         Establishment establishment = new Establishment();
         establishment.setId(modelToConvert.getEstablishmentId());

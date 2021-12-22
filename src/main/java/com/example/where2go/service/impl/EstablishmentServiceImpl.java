@@ -46,7 +46,8 @@ public class EstablishmentServiceImpl implements EstablishmentService {
     public EstablishmentModel createEstablishment(EstablishmentModel establishmentModel) {
         if (establishmentModel.getName().isEmpty()) throw new ApiException("Введите имя", HttpStatus.BAD_REQUEST);
         if (establishmentModel.getAddress().isEmpty()) throw new ApiException("Введите адрес", HttpStatus.BAD_REQUEST);
-        if (establishmentModel.getWorkSchedule().isEmpty()) throw new ApiException("Введите время работы", HttpStatus.BAD_REQUEST);
+        if (establishmentModel.getWorkScheduleFrom() == null) throw new ApiException("Введите время работы от", HttpStatus.BAD_REQUEST);
+        if (establishmentModel.getWorkScheduleTill() == null) throw new ApiException("Введите время работы до", HttpStatus.BAD_REQUEST);
         if (establishmentModel.getCategoryId() == null) throw new ApiException("Введите категорию", HttpStatus.BAD_REQUEST);
         establishmentModel.setUserId(userService.getCurrentUser().getId());
         establishmentRepository.save(establishmentConverter.convertFromModel(establishmentModel));
@@ -66,7 +67,8 @@ public class EstablishmentServiceImpl implements EstablishmentService {
 
         if (establishmentModel.getName() != null) establishmentModelForUpdate.setName(establishmentModel.getName());
         if (establishmentModel.getAddress() != null) establishmentModelForUpdate.setAddress(establishmentModel.getAddress());
-        if (establishmentModel.getWorkSchedule() != null) establishmentModelForUpdate.setWorkSchedule(establishmentModel.getWorkSchedule());
+        if (establishmentModel.getWorkScheduleFrom() != null) establishmentModelForUpdate.setWorkScheduleFrom(establishmentModel.getWorkScheduleFrom());
+        if (establishmentModel.getWorkScheduleTill() != null) establishmentModelForUpdate.setWorkScheduleTill(establishmentModel.getWorkScheduleTill());
         if (establishmentModel.getCategoryId() != null) establishmentModelForUpdate.setCategoryId(establishmentModel.getCategoryId());
         establishmentRepository.save(establishmentConverter.convertFromModel(establishmentModelForUpdate));
         return establishmentModelForUpdate;

@@ -8,6 +8,9 @@ import com.example.where2go.model.EstablishmentModel;
 import com.example.where2go.model.EstablishmentModel;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Component
 public class EstablishmentConverter extends BaseConverter<EstablishmentModel, Establishment>{
     public EstablishmentConverter() {
@@ -19,7 +22,8 @@ public class EstablishmentConverter extends BaseConverter<EstablishmentModel, Es
         return EstablishmentModel.builder()
                 .name(entityToConvert.getName())
                 .address(entityToConvert.getAddress())
-                .workSchedule(entityToConvert.getWorkSchedule())
+                .workScheduleFrom(entityToConvert.getWorkScheduleFrom())
+                .workScheduleTill(entityToConvert.getWorkScheduleTill())
                 .userId(entityToConvert.getUser().getId())
                 .categoryId(entityToConvert.getCategory().getId())
                 .build();
@@ -32,7 +36,8 @@ public class EstablishmentConverter extends BaseConverter<EstablishmentModel, Es
 
         establishmentToReturn.setName(modelToConvert.getName());
         establishmentToReturn.setAddress(modelToConvert.getAddress());
-        establishmentToReturn.setWorkSchedule(modelToConvert.getWorkSchedule());
+        establishmentToReturn.setWorkScheduleFrom(modelToConvert.getWorkScheduleFrom());
+        establishmentToReturn.setWorkScheduleTill(modelToConvert.getWorkScheduleTill());
         User user = new User();
         user.setId(modelToConvert.getUserId());
         establishmentToReturn.setUser(user);

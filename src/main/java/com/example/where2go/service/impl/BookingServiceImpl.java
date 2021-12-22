@@ -29,8 +29,14 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingModel createBooking(BookingModel bookingModel) {
-        if (bookingModel.getBookingTime().isEmpty()) throw new ApiException("Введите время бронирования", HttpStatus.BAD_REQUEST);
+        if (bookingModel.getBookingTimeFrom() == null) throw new ApiException("Введите время бронирования от", HttpStatus.BAD_REQUEST);
+        if (bookingModel.getBookingTimeTill() == null) throw new ApiException("Введите время бронирования до", HttpStatus.BAD_REQUEST);
         if (bookingModel.getTableId() == null) throw new ApiException("Введите столик", HttpStatus.BAD_REQUEST);
+        List<Booking> bookings = bookingRepository.findBookingsByEstablishmentTableId(bookingModel.getTableId());
+        for (Booking booking:bookings) {
+            Booking bookingFromClient = bookingConverter.convertFromModel(bookingModel);
+            if (booking.getBookingTimeFrom().isEqual(bookingFromClient.getBookingTimeFrom()) || booking.getBookingTimeTill().isEqual(bookingFromClient.getBookingTimeTill())) throw new ApiException("На это время уже есть бронь", HttpStatus.BAD_REQUEST);
+        }
         bookingModel.setUserId(userService.getCurrentUser().getId());
         bookingRepository.save(bookingConverter.convertFromModel(bookingModel));
         return bookingModel;
@@ -57,7 +63,8 @@ public class BookingServiceImpl implements BookingService {
     public BookingModel updateBooking(BookingModel bookingModel) {
         BookingModel bookingModelForUpdate = getById(bookingConverter.convertFromModel(bookingModel).getId());
 
-        if (bookingModel.getBookingTime() != null) bookingModelForUpdate.setBookingTime(bookingModel.getBookingTime());
+        if (bookingModel.getBookingTimeFrom() != null) bookingModelForUpdate.setBookingTimeFrom(bookingModel.getBookingTimeFrom());
+        if (bookingModel.getBookingTimeTill() != null) bookingModelForUpdate.setBookingTimeTill(bookingModel.getBookingTimeTill());
         if (bookingModel.getTableId() != null) bookingModelForUpdate.setTableId(bookingModel.getTableId());
 
         bookingRepository.save(bookingConverter.convertFromModel(bookingModelForUpdate));

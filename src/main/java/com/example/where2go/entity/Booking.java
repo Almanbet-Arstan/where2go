@@ -14,8 +14,11 @@ import java.time.LocalDateTime;
 @Builder
 public class Booking extends BaseEntity{
 
-    @Column(name = "booking_time")
-    private LocalDateTime bookingTime;
+    @Column(name = "booking_time_from")
+    private LocalDateTime bookingTimeFrom;
+
+    @Column(name = "booking_time_till")
+    private LocalDateTime bookingTimeTill;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

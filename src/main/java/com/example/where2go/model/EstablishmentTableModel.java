@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class EstablishmentTableModel {
+    private Long tableNumber;
     private Integer seats;
     private Long establishmentId;
-    private Integer count;
 }

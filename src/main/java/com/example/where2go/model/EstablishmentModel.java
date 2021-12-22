@@ -2,6 +2,7 @@ package com.example.where2go.model;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -11,7 +12,8 @@ import java.util.List;
 public class EstablishmentModel {
     private String name;
     private String address;
-    private String workSchedule;
+    private String workScheduleFrom;
+    private String workScheduleTill;
     private Long userId;
     private Long categoryId;
 }
