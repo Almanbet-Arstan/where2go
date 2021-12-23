@@ -43,6 +43,10 @@ public class EstablishmentTableServiceImpl implements EstablishmentTableService 
         if (tableModel.getSeats() == null) throw new ApiException("Введите количество посадочных мест", HttpStatus.BAD_REQUEST);
         Establishment establishment = establishmentRepository.findEstablishmentById(tableModel.getEstablishmentId()).orElse(null);
         if (!establishment.getUser().getId().equals(userService.getCurrentUser().getId())) throw new ApiException("Вы не можете вносить изменения в это заведение", HttpStatus.BAD_REQUEST);;
+        List<EstablishmentTable> establishmentTables = establishmentTableRepository.findAll();
+        for (EstablishmentTable establishmentTable:establishmentTables) {
+            if (tableModel.getTableNumber().equals(establishmentTable.getTableNumber())) throw new ApiException("Такой стол с таким номером уже существует", HttpStatus.BAD_REQUEST);
+        }
         establishmentTableRepository.save(establishmentTableConverter.convertFromModel(tableModel));
         return tableModel;
     }
