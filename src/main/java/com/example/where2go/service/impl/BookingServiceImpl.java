@@ -27,6 +27,7 @@ public class BookingServiceImpl implements BookingService {
     private UserService userService;
 
 
+
     @Override
     public BookingModel createBooking(BookingModel bookingModel) {
         if (bookingModel.getBookingTimeFrom() == null) throw new ApiException("Введите время бронирования от", HttpStatus.BAD_REQUEST);
@@ -66,6 +67,7 @@ public class BookingServiceImpl implements BookingService {
         if (bookingModel.getBookingTimeFrom() != null) bookingModelForUpdate.setBookingTimeFrom(bookingModel.getBookingTimeFrom());
         if (bookingModel.getBookingTimeTill() != null) bookingModelForUpdate.setBookingTimeTill(bookingModel.getBookingTimeTill());
         if (bookingModel.getTableId() != null) bookingModelForUpdate.setTableId(bookingModel.getTableId());
+        if (bookingModel.getUserId() != null) bookingModelForUpdate.setUserId(bookingModel.getUserId());
 
         bookingRepository.save(bookingConverter.convertFromModel(bookingModelForUpdate));
         return bookingModelForUpdate;

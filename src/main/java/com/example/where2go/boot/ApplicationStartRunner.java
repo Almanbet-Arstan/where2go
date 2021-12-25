@@ -20,30 +20,15 @@ public class ApplicationStartRunner implements CommandLineRunner {
     @Autowired
     private UserRoleService userRoleService;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private EstablishmentService establishmentService;
-
-    @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private FeatureService featureService;
-
-    @Autowired ReviewService reviewService;
-
-
     @Override
     public void run(String... args) throws Exception {
 
-        UserRoleModel admin = new UserRoleModel();
-        admin.setRoleName("ROLE_ADMIN");
-        userRoleService.createUserRole(admin);
-        UserRoleModel client = new UserRoleModel();
-        client.setRoleName("ROLE_CLIENT");
-        userRoleService.createUserRole(client);
+//        UserRoleModel admin = new UserRoleModel();
+//        admin.setRoleName("ROLE_ADMIN");
+//        userRoleService.createUserRole(admin);
+//        UserRoleModel client = new UserRoleModel();
+//        client.setRoleName("ROLE_CLIENT");
+//        userRoleService.createUserRole(client);
 
     }
 }

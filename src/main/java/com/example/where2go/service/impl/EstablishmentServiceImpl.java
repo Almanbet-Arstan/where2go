@@ -49,6 +49,10 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         if (establishmentModel.getWorkScheduleFrom() == null) throw new ApiException("Введите время работы от", HttpStatus.BAD_REQUEST);
         if (establishmentModel.getWorkScheduleTill() == null) throw new ApiException("Введите время работы до", HttpStatus.BAD_REQUEST);
         if (establishmentModel.getCategoryId() == null) throw new ApiException("Введите категорию", HttpStatus.BAD_REQUEST);
+        List<Establishment> establishments = establishmentRepository.findEstablishmentsByName(establishmentModel.getName());
+        for (Establishment establishment:establishments) {
+            if (establishment.getAddress().equals(establishmentModel.getAddress())) throw new ApiException("По такому адресу уже существует " + establishmentModel.getName(), HttpStatus.BAD_REQUEST);
+        }
         establishmentModel.setUserId(userService.getCurrentUser().getId());
         establishmentRepository.save(establishmentConverter.convertFromModel(establishmentModel));
         return establishmentModel;
@@ -69,6 +73,7 @@ public class EstablishmentServiceImpl implements EstablishmentService {
         if (establishmentModel.getAddress() != null) establishmentModelForUpdate.setAddress(establishmentModel.getAddress());
         if (establishmentModel.getWorkScheduleFrom() != null) establishmentModelForUpdate.setWorkScheduleFrom(establishmentModel.getWorkScheduleFrom());
         if (establishmentModel.getWorkScheduleTill() != null) establishmentModelForUpdate.setWorkScheduleTill(establishmentModel.getWorkScheduleTill());
+        if (establishmentModel.getUserId() != null) establishmentModelForUpdate.setUserId(establishmentModel.getUserId());
         if (establishmentModel.getCategoryId() != null) establishmentModelForUpdate.setCategoryId(establishmentModel.getCategoryId());
         establishmentRepository.save(establishmentConverter.convertFromModel(establishmentModelForUpdate));
         return establishmentModelForUpdate;
